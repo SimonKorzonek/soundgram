@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- BOOTSTRAP-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://kit.fontawesome.com/136bdef65c.js"></script>
+    {% if title %}
+        <title>Soundgram - {{title}} </title>
+    {% else %}
+        <title>Soundgram</title>
+    {% endif %}
+</head>
+
+<body> 
+    <!--navbar-->
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <div class="container">
+    
+                <a class="navbar-brand" href="/">Soundgram</a>
+                <!--data-target attribute contains selector pointing to element that will be changed.-->
+                    
+                <!-- navbar button -->
+                <button label="menu_button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
+                    <span class="navbar-toggler-icon"></span> <!-- menu button-->
+                </button>
+                    
+                <!-- responsive collapsing navbar top -->                
+                <div class="collapse navbar-collapse" id="navbarToggle"><!-- that's what's collapsing-->
+                        
+                    <!-- navbar top right -->
+                    <div class="navbar-nav">
+                        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+                            <div class="container">
+                    
+                                <a class="navbar-brand" href="/">Soundgram</a>
+                                <!--data-target attribute contains selector pointing to element that will be changed.-->
+                                    
+                                <!-- navbar button -->
+                                <button label="menu_button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
+                                    <span class="navbar-toggler-icon"></span> <!-- menu button-->
+                                </button>
+                                    
+                                <!-- responsive collapsing navbar top -->                
+                                <div class="collapse navbar-collapse" id="navbarToggle"><!-- that's what's collapsing-->
+                                        
+                                    <!-- navbar top left -->
+                                    <div class="navbar-nav mr-auto mt-1">
+                                        <a title="Home" class="nav-item nav-link" href="/"><i class="fas fa-home mr-2"></i>Home</a>
+                                        <a title="About" class="nav-item nav-link" href="/about">About</a>
+                                    </div>
+                    
+                                    <!-- navbar top right -->
+                                    <div class="navbar-nav">
+                                        <a title="Messages" class="mt-1 mr-3 nav-item nav-link" href="{{ url_for('users.messages') }}"><i class="far fa-envelope"></i></a>
+                                        <i title="Notifications" class="nav-item nav-link mt-1 mr-3 far fa-bell"></i>
+                                        <a title="Profile" class="nav-item nav-link mt-1 mr-3" href="{{ url_for('users.user_profile', username = current_user.username) }}"><i class="far fa-user-circle"></i></a>
+                                        <a title="Sign out" class="nav-item nav-link mt-1 ml-4" href="{{ url_for('users.logout') }}"><i class="far fa-times-circle"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!--flashed messages, container-->
+    <main role="main" class="container">
+        <div class="row ">
+            <div class="col-md-1"></div>
+            <!-- displaying flashed messages -->
+            <div class="col-md-10">
+                {% with messages = get_flashed_messages(with_categories=true) %}<!--with_categories_true - allows to grab btstrp class-->
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                <li>{{ message }}</li>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                {% block content %}{% endblock %}   <!--child htmls are gonna override it-->
+            </div>
+            <!-- right side menu -->
+        </div>
+    </main>
+        
+        
+        
+
+
+    <!--bootstrap scripts-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

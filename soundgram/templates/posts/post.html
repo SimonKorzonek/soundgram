@@ -1,0 +1,156 @@
+{% extends "main/navbar.html" %}   <!--inheritance - child of layout.html-->
+
+{% block content %}
+
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+        <div class="media-body">
+
+            <!--post metadata, author options-->
+            <div class=" mb-4">
+                <small class="text-muted">by</small> 
+                <a class="mr-2" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ post.author.username }}</a>
+                <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small> <!-- strftime method allows to print out data in specyfic way -->
+                
+                {% if post.author == current_user %}
+                    <div class="float-right">
+                        <a class="btn btn-light" data-toggle="modal" data-target="#deletePostModal"><i class="far fa-trash-alt"></i></a>
+                        <a class="btn btn-light" href="{{ url_for('posts.edit_post', post_id=post.id) }}"><i class="far fa-edit"></i></a>
+                    </div>
+                {% else %}
+                    <div class="float-right mt-2 mr-1">
+                        <a class="btn-outline-secondary" href=#><i class="far fa-paper-plane"></i></a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!--displaying post content-->
+            <h5 class="mb-4 text-center"><a class="article-title" href=#>{{ post.title }}</a></h5>
+            <p class="article-content">{{ post.description }}</p>
+            
+            {% if post.content %}
+                {% if post.content.endswith('.mp3'): %}
+                    <audio controls class="row mb-3 mt-4" style="width: 98%;">
+                        <source src="/static/content/{{ post.content }}", type="audio/mpeg">
+                        Your browser does not support the audio element. Stop using explorerrrr!!
+                    </audio>
+                
+                {% elif post.content.endswith('.jpg'): %}
+                    <img class="mt-2" style="max-width: 100%" src="/static/content/{{ post.content }}">
+                
+                {% elif post.content.endswith('.mp4'): %}
+                    <video controls class="mt-2" style="max-width: 100%">
+                        <source src="/static/content/{{ post.content }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+            {% endif %}
+
+
+            <!-- like btn and comment form -->
+            <div class="row mt-4">
+                <div class="col-1">
+                    <!--unlike button-->
+                    {% if current_user.has_liked_post(post) %}
+                        <a class="btn btn-lg pt-0" href="{{ url_for('posts.unlike', post_id=post.id) }}"><i class="fas fa-heartbeat"></i></i></a>
+
+                    <!--like button-->
+                    {% else %}
+                        <a class="btn" href="{{ url_for('posts.like', post_id=post.id) }}"><i class="far fa-heart"></i></a>
+                    {% endif %}
+                </div>
+
+
+                <div class="col-1 mt-1 text-muted">
+                    <small>{{ post.likes.count() }} likes</small>
+                </div>
+                
+
+                <!--comment form-->
+                <div class="col">
+                    <form method="POST" action="">
+                        {{ comment_form.hidden_tag() }}
+                        <fieldset class="form-group"> 
+                        
+                            <!--comment field validation-->
+                            {% if comment_form.comment.errors %}
+                                {{ comment_form.comment(class="form-control is-invalid") }}
+                                <div class="ivalid-feedback">
+                                {% for error in comment_form.comment.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            {%else%}
+                                {{ comment_form.comment(class="form-control ml-1 form-control") }} <!--passing form itself-->
+                            {%endif%}
+                        </fieldset>
+                </div>
+                
+                <!-- submit button -->
+                <div class="col-2 pr-1 form-group">
+                        {{ comment_form.submit(class="btn btn-light") }}
+                </div>
+                </form>
+            </div>
+            
+        
+            
+            <!--displaying comments-->
+            {% if post.comments %}
+                {% if post.comments.count() > 0 %}
+                    {% for comment in post.comments %}
+                        <div class="row mt-1">
+                            
+                            <!--comment metadata-->
+                            <div class="col-3">
+                                <a class="mr-2 small" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ comment.author.username }}</a>
+                                <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
+                            </div>
+                            
+                            <!--comment itself-->
+                            <div class="col-lg">
+                                <p class="small mt-1 ml-2">{{ comment.comment }}</p>
+                            </div>
+                            
+                            <!--comment author options-->
+                            {% if comment.author == current_user %}
+                                <div class="mr-3">
+                                    <a class="btn-outline-secondary" href="{{ url_for('posts.edit_comment', comment_id=comment.id) }}"><i class="far fa-edit"></i></a>
+                                    <a class="btn-outline-secondary ml-2 mr-1" href="{{ url_for('posts.delete_comment', comment_id=comment.id) }}"><i class="far fa-trash-alt"></i></a>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        </div>
+    </article>
+
+    <!-- delete post modal -->
+    <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

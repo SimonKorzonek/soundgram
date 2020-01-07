@@ -1,0 +1,72 @@
+{% include "main/navbar.html" %} 
+
+<main role="main" class="container">
+    <div class="row ">
+        <div class="col-md-1"></div>
+        <!-- displaying flashed messages -->
+            <div class="col-md-10">
+
+                <div class="media content-section pb-0 mb-2">
+                    <img class="rounded-circle account-img img-fluid" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
+
+                    <div class="media-body">
+                        <div class="col">
+
+                            <!--username, posts uploaded-->
+                            <div class="mb-3 mt-2 row justify-content-center">
+                                <div class="col justify-content-left">
+                                    <legend><a style="text-decoration: none; color:#404040;" href="{{ url_for('users.user_profile', username=user.username)}}">{{ user.username }}</a></legend>  
+                                    <em><small class="text-secondary">{{ posts.total }} posts uploaded</small></em>
+                                </div>
+                                
+                                {% if user != current_user %}
+                                    <div class="col text-right">                           
+                                        <a class="mt-1 btn btn-sm btn-outline-info" href="{{ url_for('users.send_message', recipient=user.username) }}"> send message</a>
+                                    </div>    
+                                {% endif %}
+                            
+                            </div>
+
+                            
+
+                            <!--profile buttons-->
+                            <div class="row">
+                                {% if user == current_user %}
+                                    <a class=" btn btn-sm btn-outline-info" href="{{ url_for('users.edit_profile', username=user.username) }}">Edit your profile</a>
+                                {% elif not current_user.is_following(user) %}
+                                    <a class="btn btn-info ml-3 mr-2" href="{{ url_for('users.follow', username=user.username) }}">Follow</a>
+                                {% else %}
+                                    <a class="btn btn-sm btn-outline-info ml-3 mr-2" href="{{ url_for('users.unfollow', username=user.username) }}">Unfollow</a>
+                                {% endif %}
+
+                                <!--profile buttons behavior-->
+                                {% if request.endpoint == 'users.followed_by' %}
+                                    <a class="btn btn-sm btn-outline-secondary ml-4 mt-1" href="{{ url_for('users.followed_by', username=user.username) }}">{{ user.followers.count() }} Followers </a>
+                                    <a class="btn-sm btn-outline-secondary ml-2 mt-1" href="{{ url_for('users.is_following', username=user.username) }}">{{ user.followed.count() }} Following</a>
+                                
+                                {% elif request.endpoint == 'users.is_following' %}
+                                    <a class="btn-sm btn-outline-secondary ml-4 mt-1" href="{{ url_for('users.followed_by', username=user.username) }}">{{ user.followers.count() }} Followers </a>
+                                    <a class="btn btn-sm btn-outline-secondary ml-2 mt-1" href="{{ url_for('users.is_following', username=user.username) }}">{{ user.followed.count() }} Following</a>
+                                
+                                {% else %}
+                                    <a class="btn-sm btn-outline-secondary ml-4 mt-1" href="{{ url_for('users.followed_by', username=user.username) }}">{{ user.followers.count() }} Followers </a>
+                                    <a class="btn-sm btn-outline-secondary ml-2 mt-1" href="{{ url_for('users.is_following', username=user.username) }}">{{ user.followed.count() }} Following</a>
+                                {% endif %}
+                            </div> 
+
+                       </div>
+
+                       <!--bio-->
+                       <div class="row ">
+                            <div class="col mr-5 mt-3 ml-1 text-muted text-center">
+                                <p> is bio, you can add some bio of yours exacly right hereand this is bio, you can add some bio of yours exacly right hereand this is bio, you can add some bio of yours exacly right here</p>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+
+            {% block content %}{% endblock %}   <!--child htmls are gonna override it-->
+        </div>
+    </div>
+</main>
+        

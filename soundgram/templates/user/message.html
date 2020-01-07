@@ -1,0 +1,39 @@
+{% extends "main/navbar.html" %}
+
+{% block content %}
+    <legend class="text-center">Send message to {{ recipient }}</legend>
+    <div class="row justify-content-center">
+        <div class="col-9">
+            
+            <!--message form-->
+        
+
+                <!--message field validation-->
+                <form class="mt-2" method="POST" action="">
+                    {{ message_form.hidden_tag() }}
+                    <fieldset class="form-group"> 
+                    
+                        <!--message field validation-->
+                        {% if message_form.message.errors %}
+                            {{ message_form.message(class="form-control is-invalid") }}
+                            <div class="ivalid-feedback">
+                            {% for error in message_form.message.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                            </div>
+                        {%else%}
+                            {{ message_form.message(class="form-control") }} <!--passing form itself-->
+                        {%endif%}
+                    </fieldset>
+            
+            
+                    <!-- submit button -->
+                    <div class="mt-4 text-center form-group">
+                            {{ message_form.submit(class="btn btn-info") }}
+                    </div>
+
+                </form>
+          
+        </div>
+    </div>
+{% endblock %}

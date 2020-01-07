@@ -1,0 +1,114 @@
+{% extends "main/layout_welcome.html" %}      
+
+{% block content %}
+
+<div class="row content-section justify-content-center">
+    <div class="box">
+        <div class="box-dimmed">
+
+
+
+            <!--register-->
+            <div class="col ">
+                <form method="POST" action="">
+                    {{ register_form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="mb-3 pt-5 ml-3 text-center welcome_legend">Create account</legend>
+
+                        <!--username validation-->
+                        <div class="form-group mb-4 mt-3">
+                        <!--displaying error feedback-->
+                        {% if register_form.username.errors %}
+                            {{ register_form.username(class="form-control form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in register_form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ register_form.username(class="form-control form-control-sm") }}
+                        {% endif %}
+                        </div>
+
+                        <!--email validation-->
+                        <div class="form-group mb-4">
+                        {% if register_form.email.errors %}
+                            {{ register_form.email(class="form-control form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in register_form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ register_form.email(class="form-control form-control-sm") }}
+                        {% endif %}
+                        </div>
+
+                        <!--pswrd validation-->
+                        <div class="form-group mb-4">
+                        {% if register_form.password.errors %}
+                            {{ register_form.password(class="form-control form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register_form.password.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ register_form.password(class="form-control form-control-sm") }} 
+                        {% endif %}
+                        </div>
+
+                        <!--confirm pswrd-->
+                        <div class="form-group mb-2">
+                        {% if register_form.confirm_password.errors%}
+                            {{ register_form.confirm_password(class="form-control form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register_form.confirm_password.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ register_form.confirm_password(class="form-control form-control-sm") }} 
+                        {% endif %}
+                        </div>
+
+                    
+                        <!--button-->
+                        <div class="form-group pt-4 pl-2 text-center">
+                            {{ register_form.register(class="btn btn-sm btn-outline-light") }}
+                        </div>
+
+
+                        <!--need account?-->
+                        <div class="text-center mt-5 pb-0">
+                            <small class="welcome_legend">
+                                Already registered? <a class="ml-2" href="{{ url_for('users.login')}}">Sign in!</a>
+                            </small>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+       </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+<div class="pt-3 pb-3 pl-3">
+    <small class="text-muted">
+        Need account? <a class="ml-2" href="{{ url_for('users.login')}}">Create one</a>
+    </small>
+</div>
+
+
+

@@ -1,0 +1,32 @@
+{% extends "main/navbar.html" %}
+
+{% block content %}
+
+<legend class="text-center mb-3">Messages</legend>
+
+{% for message in messages %}
+
+
+    <article class="media content-section">
+
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + message.author.image_file) }}">
+
+
+        <div class="col media-body">
+            <!--message metadata-->
+            <div class=" mb-4">  
+                <a class="mr-2" href="{{ url_for('users.user_profile', username=message.author.username) }}">{{ message.author.username }}</a>
+                <small class="text-muted">{{ message.timestamp.strftime('%d-%m-%Y') }}</small>
+            </div>
+
+            <!--displaying message content-->
+            <p class="article-content">{{ message.body }}</p>
+        </div>
+    </article>
+
+{% endfor %}
+
+
+
+
+{% endblock %}

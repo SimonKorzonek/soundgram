@@ -1,0 +1,72 @@
+{% extends "main/layout_welcome.html" %}      
+
+{% block content %}
+
+    <div class="row content-section justify-content-center">
+
+        <div class="box ">
+            <div class="box-dimmed">
+                <form method="POST" action="">
+                    {{ login_form.hidden_tag() }}
+    
+                    <fieldset class="form-group">
+                        <legend class="pb-4 pt-5 text-center welcome_legend">Sign in</legend>
+    
+                        <!-- email field validation-->
+                        <div class="form-group mb-4">
+                            {% if login_form.email.errors %}
+                                {{ login_form.email(class="form-control form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in login_form.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ login_form.email(class="form-control form-control-sm") }}
+                            {% endif %}
+                        </div>
+    
+                        <!-- password field validation-->
+                        <div class="form-group mb-4">
+                            {%if login_form.password.errors%}
+                                {{ login_form.password(class="form-control form-control is-invalid") }}
+                                    <div class="ivalid-feedback">
+                                        {% for error in login_form.password.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                            {%else%}
+                                {{ login_form.password(class="form-control form-control-sm") }} <!--passing form itself-->
+                            {%endif%}
+                        </div>
+    
+                        <!-- remember me checkbox -->
+                        <div class="form-check mb-4 text-center">
+                                {{login_form.remember(class="form-check-input pl-3")}}
+                                {{login_form.remember.label(class="form-check-label welcome_legend pl-3")}}
+                        </div>
+                        
+                        <!-- login button -->
+                        <div class="form-group text-center mb-4 mt-3">
+                            {{ login_form.login(class="btn btn-sm btn-outline-light mt-3") }}
+                        </div>
+
+                        <!--need account?-->
+                        <div class="text-center mt-5 pb-0">
+                                <small class="welcome_legend">
+                                    Need account? <a class="ml-2" href="{{ url_for('users.register')}}">Create one</a>
+                                </small>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+

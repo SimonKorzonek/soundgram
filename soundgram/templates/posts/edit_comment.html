@@ -1,0 +1,34 @@
+{% extends "main/navbar.html" %}      <!--inheritance - child of layout.html-->
+
+{% block content %}
+<div class="content-section pt-3">
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <fieldset class="form-group">
+            <p class="mb-4 text-center pt-3 ml-4 text-muted">Edit your comment</p>
+            
+            <!--comment field validation-->
+            <div class="form-group mt-4 mb-4">
+                {% if form.comment.errors %}
+                    {{ form.comment(class="form-control form-control is-invalid") }}
+                    <div class="ivalid-feedback">
+                        {% for error in comment.form.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {%else%}
+                    {{ form.comment(class="form-control form-control-sm") }}
+                {%endif%}
+            </div>
+
+        </fieldset>
+
+        <!-- submit button -->
+        <div class="form-group pl-3 text-center">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+
+    </form>
+</div>
+{% endblock %}

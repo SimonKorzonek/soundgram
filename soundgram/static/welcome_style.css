@@ -1,0 +1,72 @@
+
+
+.welcome_legend{
+    color: lightgray;
+}
+
+section{
+    border-radius: 25px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(pics/welcome.JPG);
+    background-attachment: fixed;
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+section .box{
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+    width: 90%;
+
+
+}
+section .box-dimmed{
+    border-radius: 25px;
+    position: relative;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 2%;
+    box-sizing: border-box;
+    background: rgba(10, 10, 10, 0.5);
+    background-attachment: fixed;
+}
+
+section .box:before{
+    border-radius: 20px;
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    left: -20px;
+    bottom: -20px;
+    background: url(pics/welcome.JPG);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(3px);
+
+}
+
+section .box fieldset {
+    position: relative;
+    margin: 0 0 20;
+    padding: 0;
+
+
+}
+
+section .box fieldset {
+    position: relative;
+    margin: 0 0 20;
+    padding: 0;
+
+}
+
+

@@ -1,0 +1,58 @@
+{% extends "main/navbar.html" %}      <!--inheritance - child of layout.html-->
+
+{% block content %}
+<div class="content-section pt-3">
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <p class="mb-4 text-center pt-3 ml-4 text-muted ">Update your post</p>
+            
+            <!--.title field validation-->
+            <div class="form-group">
+                {% if form.title.errors %}
+                    {{ form.title(class="form-control form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.title.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.title(class="form-control form-control-sm") }}
+                {% endif %}
+            </div>
+
+            <!--.description field validation-->
+            <div class="form-group mt-4 mb-4">
+                {% if form.description.errors %}
+                    {{ form.description(class="form-control form-control is-invalid") }}
+                    <div class="ivalid-feedback">
+                        {% for error in description.form.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {%else%}
+                    {{ form.description(class="form-control form-control-sm") }} <!--passing form itself-->
+                {%endif%}
+            </div>
+
+           <!-- upload content field -->
+            <div label="upload_content" class="form-group text-center mt-4">
+                {{ form.content.label() }} <br>
+                {{ form.content(method="post", class="form-control-content mt-4 ml-5", enctype="multipart/form-data") }}
+                {% if form.content.errors %}
+                    {% for error in form.content.errors %}
+                        <span class="text-danger">{{ error }}</span><br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+        </fieldset>
+
+        <!-- submit button -->
+        <div class="form-group pl-3 text-center">
+            {{ form.submit(class="btn btn-sm btn-outline-info") }}
+        </div>
+
+    </form>
+</div>
+{% endblock %}
