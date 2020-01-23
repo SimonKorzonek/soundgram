@@ -18,15 +18,18 @@ def home_newest():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     post_form = PostForm()
-    comment_form = CommentForm()
+
     if post_form.validate_on_submit():
-        content_file = save_media_file(post_form.content.data)
-        post = Post(title=post_form.title.data, description=post_form.description.data, content=content_file, author=current_user)
+        if post_form.content.data:
+            content_file = save_media_file(post_form.content.data)
+            post = Post(title=post_form.title.data, description=post_form.description.data, content=content_file, author=current_user)
+        else:
+            post = Post(title=post_form.title.data, description=post_form.description.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'info')
         return redirect(request.referrer)
-    return render_template('main/home.html', title='Newest posts', post_form=post_form, posts=posts, comment_form=comment_form)
+    return render_template('main/home.html', title='Newest posts', post_form=post_form, posts=posts)
 
 
 @main.route("/")
@@ -37,7 +40,6 @@ def home_followed():
     user = current_user
     posts = user.followed_posts().order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     post_form = PostForm()
-    comment_form = CommentForm()
     if post_form.validate_on_submit():
         content_file = save_media_file(post_form.content.data)
         post = Post(title=post_form.title.data, description=post_form.description.data, content=content_file, author=current_user)
@@ -45,7 +47,7 @@ def home_followed():
         db.session.commit()
         flash('Your post has been created!', 'info')
         return redirect(request.referrer)
-    return render_template('main/home.html', title='Followed posts', post_form=post_form, posts=posts, comment_form=comment_form)
+    return render_template('main/home.html', title='Followed posts', post_form=post_form, posts=posts)
 
 
 @main.route("/about")

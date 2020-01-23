@@ -1,34 +1,33 @@
 {% extends "main/navbar.html" %}   <!--inheritance - child of layout.html-->
 
 {% block content %}
+    <div class="row mb-2 mt-2">
+        <div class="input-group">
+            <div class="col newest-followed-buttons mt-2 mb-1">
 
-    <div class="row mb-3">
+                <!-- following newest -->
+                {% if url_for(request.endpoint) == '/home_followed' %}
+                    <a class="following-newest-button-active mr-2 ml-1" href="{{ url_for('main.home_followed') }}">FOLLOWING</a>
+                    <a class="following-newest-button-disabled" href="{{ url_for('main.home_newest') }}">NEWEST</small></a>
+                {% elif url_for(request.endpoint) == '/home_newest' %}
+                <a class="following-newest-button-active mr-2 ml-1" href="{{ url_for('main.home_newest') }}">NEWEST</small></a>
+                <a class="following-newest-button-disabled " href="{{ url_for('main.home_followed') }}">FOLLOWING</a>
+                {% endif %}
 
-        {% if url_for(request.endpoint) == '/home_followed' %}
-            <a class="btn btn-secondary  ml-3" href="{{ url_for('main.home_followed') }}">Following</a>
-            <a class="btn btn-outline-secondary ml-2" href="{{ url_for('main.home_newest') }}">Newest</small></a>
-            
-        {% elif url_for(request.endpoint) == '/home_newest' %}
-            <a class="btn btn-outline-secondary ml-3" href="{{ url_for('main.home_followed') }}">Following</a>
-            <a class="btn btn-secondary  ml-2" href="{{ url_for('main.home_newest') }}">Newest</small></a>
-        {% endif %}
-            <a class="btn btn-outline-secondary ml-2" href=#>Discover</a>
-    
-        <!-- newpost button, search -->
-        <div class=" col input-group ">
-            <input class="form-control text-center" type="text" placeholder="Search - to gówno nie działa" aria-label="Search">
-            <button type="button" class="btn btn-info ml-3" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+ New Post</button>
+                <!-- newpost button -->
+                <a class="newpost-button float-right" data-toggle="collapse" href="#new-post-collapse" aria-expanded="false" aria-controls="new-post-collapse"><i class="fas fa-pen pen-icon mr-1"></i> New Post </a>
+            </div>
         </div>
     </div>
 
     <!-- newpost collapsing form -->
-    <div class="collapse mb-3" id="collapseExample">     
-        <form method="POST" action="" enctype="multipart/form-data">
-            
+    <div class="collapse mb-3" id="new-post-collapse">
+        <form id="newpost-form" method="POST" action="" enctype="multipart/form-data">
+
             {{ post_form.hidden_tag() }}
             <fieldset class="form-group">
 
-                <!--.title field validation-->
+                <!-- .title field validation -->
                 <div class="form-group">
                     {% if post_form.title.errors %}
                         {{ post_form.title(class="form-control form-control is-invalid") }}
@@ -42,25 +41,25 @@
                     {% endif %}
                 </div>
 
-                <!--.description field validation-->
+                <!-- description field validation -->
                 <div class="form-group mt-4 mb-4">
-                        {% if post_form.description.errors %}
-                            {{ post_form.description(class="form-control is-invalid") }}
-                            <div class="ivalid-feedback">
-                                {% for error in description.form.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {%else%}
-                            {{ post_form.description(class="form-control form-control-md") }} <!--passing form itself-->
-                        {%endif%}
+                    {% if post_form.description.errors %}
+                        {{ post_form.description(class="form-control is-invalid") }}
+                        <div class="ivalid-feedback">
+                            {% for error in description.form.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {%else%}
+                        {{ post_form.description(class="form-control form-control-md") }} <!--passing form itself-->
+                    {%endif%}
                 </div>
             </fieldset>
 
             <div class="row justify-content-center">
-                
+
                 <!-- upload content field -->
-                <div label="upload_content" class="form-group">
+                <div label="upload_content" class="row form-group">
                     {{ post_form.content(method="post", class="form-control-content form-control-sm ", enctype="multipart/form-data") }}
                     {% if post_form.content.errors %}
                         {% for error in post_form.content.errors %}
@@ -68,10 +67,10 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-                
+
                 <!-- submit button -->
-                <div class="form-group pr-5">
-                    {{ post_form.submit(class="btn btn-sm btn-info") }}
+                <div class="row form-group">
+                    </i>{{ post_form.submit(class="btn btn-sm btn-success") }}
                 </div>
             </div>
         </form>
@@ -80,10 +79,5 @@
 
     {% include 'posts/view_posts.html' %}
 
-
-
-
-
-    
 {% endblock %}
 

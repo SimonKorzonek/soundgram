@@ -5,21 +5,21 @@
 
         <!-- list of followers -->
         {% if request.endpoint == 'users.followed_by' %}
-            <p class="text-center text-muted mt-2">Followed by:</p>
+            <p class="text-center text-muted">Followed by:</p>
             {% for user in user.followers %}
                 <div class="ml-1 mb-3">
                     <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
-                    <a class="btn btn-sm btn-light ml-2" href="{{ url_for('users.user_profile', username=user.username) }}">{{ user.username }}</a>
-                    <a class="btn btn-sm text-muted disabled ml-3" href=#>{{ user.email }}
-                    
+                    <a class="btn btn-sm btn-light ml-1" href="{{ url_for('users.user_profile', username=user.username) }}">{{ user.username }}</a>
+                    <small class="text-muted disabled userlist-email ml-3">{{ user.email }}</small>
+
                     {% if user==current_user %}
                         <a class="btn btn-sm btn-outline-secondary mt-3 mr-3 float-right" href="{{ url_for('users.user_profile', username=user.username) }}">Profile</a>
-                    
+
                     {% elif not current_user.is_following(user) %}
                         <a class="btn btn-sm btn-outline-info mt-3 mr-3 float-right" href="{{ url_for('users.follow', username=user.username) }}">Follow</a>
-                    
+
                     {% else %}
-                        <a class="btn btn-sm btn-outline-info mt-3 mr-3 float-right" href="{{ url_for('users.unfollow', username=user.username) }}">Unfollow</a> 
+                        <a class="btn btn-sm btn-outline-info mt-3 mr-3 float-right" href="{{ url_for('users.unfollow', username=user.username) }}">Following</a> 
                     {% endif %}
 
                 </div>
@@ -27,13 +27,13 @@
 
         <!-- list of following -->
         {% elif request.endpoint == 'users.is_following' %}
-            <p class="text-center text-muted mt-2">Following:</p>
+            <p class="text-center text-muted">Following:</p>
             {% for user in user.followed %}
                 <div class="ml-1 mb-3">
                     <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
-                    <a class="btn btn-sm btn-light ml-2" href="{{ url_for('users.user_profile', username=user.username) }}">{{ user.username }}</a>
-                    <a class="btn btn-sm text-muted disabled ml-3" href=#>{{ user.email }}
-                    
+                    <a class="btn btn-sm btn-light ml-1" href="{{ url_for('users.user_profile', username=user.username) }}">{{ user.username }}</a>
+                    <small class="text-muted disabled userlist-email ml-3">{{ user.email }}</small>
+
                     {% if user==current_user %}
                         <a class="btn btn-sm btn-outline-info mt-3 mr-3 float-right" href="{{ url_for('users.user_profile', username=user.username) }}">Profile</a>
 
@@ -41,10 +41,10 @@
                         <a class="btn btn-sm btn-outline-info mt-3 mr-3 float-right" href="{{ url_for('users.follow', username=user.username) }}">Follow</a>
 
                     {% else %}
-                        <a class="btn btn-sm btn-outline-secondary disabled mt-3 mr-3 float-right" href="{{ url_for('users.unfollow', username=user.username) }}">Following</a>
+                        <a class="btn btn-sm btn-outline-secondary mt-3 mr-3 float-right" href="{{ url_for('users.unfollow', username=user.username) }}">Following</a>
                     {% endif %}
 
-                </div>    
+                </div>
             {% endfor %}
         {% endif %}
 

@@ -1,8 +1,7 @@
 
 
 .welcome_legend{
-    color: lightgray;
-}
+    color: lightgray;}
 
 section{
     border-radius: 25px;
@@ -15,18 +14,14 @@ section{
     height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-
-}
+    background-attachment: fixed;}
 
 section .box{
     border-radius: 25px;
     position: relative;
     overflow: hidden;
-    width: 90%;
+    width: 90%;}
 
-
-}
 section .box-dimmed{
     border-radius: 25px;
     position: relative;
@@ -35,8 +30,7 @@ section .box-dimmed{
     padding-bottom: 2%;
     box-sizing: border-box;
     background: rgba(10, 10, 10, 0.5);
-    background-attachment: fixed;
-}
+    background-attachment: fixed;}
 
 section .box:before{
     border-radius: 20px;
@@ -50,23 +44,14 @@ section .box:before{
     background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
-    filter: blur(3px);
-
-}
+    filter: blur(3px);}
 
 section .box fieldset {
     position: relative;
     margin: 0 0 20;
-    padding: 0;
-
-
-}
+    padding: 0;}
 
 section .box fieldset {
     position: relative;
     margin: 0 0 20;
-    padding: 0;
-
-}
-
-
+    padding: 0;}

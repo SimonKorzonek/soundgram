@@ -17,54 +17,50 @@
 <body> 
     <!--navbar-->
     <header class="site-header">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <nav id="navbar" class="navbar navbar-expand-md navbar-dark fixed-top">
             <div class="container">
-    
-                <a class="navbar-brand" href="/">Soundgram</a>
+
+                <a href="/" class="navbar-brand mb-0">SOUNDGRAM</a>
                 <!--data-target attribute contains selector pointing to element that will be changed.-->
-                    
+
                 <!-- navbar button -->
                 <button label="menu_button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
                     <span class="navbar-toggler-icon"></span> <!-- menu button-->
                 </button>
-                    
+
                 <!-- responsive collapsing navbar top -->                
-                <div class="collapse navbar-collapse" id="navbarToggle"><!-- that's what's collapsing-->
-                        
+                <div class="collapse navbar-collapse" id="navbarToggle">
+
                     <!-- navbar top right -->
                     <div class="navbar-nav">
-                        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+                        <nav id="navbar-expand" class="navbar navbar-expand-md navbar-dark fixed-top">
                             <div class="container">
-                    
-                                <a class="navbar-brand" href="/">Soundgram</a>
-                                <!--data-target attribute contains selector pointing to element that will be changed.-->
-                                    
+                                <a class="navbar-brand" href="/">SOUNDGRAM</a>
+
                                 <!-- navbar button -->
                                 <button label="menu_button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
-                                    <span class="navbar-toggler-icon"></span> <!-- menu button-->
+                                    <span class="navbar-toggler-icon"></span>
                                 </button>
-                                    
-                                <!-- responsive collapsing navbar top -->                
-                                <div class="collapse navbar-collapse" id="navbarToggle"><!-- that's what's collapsing-->
-                                        
+
+                                <!-- responsive collapsing navbar top -->
+                                <div class="collapse navbar-collapse" id="navbarToggle">
+
                                     <!-- navbar top left -->
                                     <div class="navbar-nav mr-auto mt-1">
-                                        <a title="Home" class="nav-item nav-link" href="/"><i class="fas fa-home mr-2"></i>Home</a>
-                                        <a title="About" class="nav-item nav-link" href="/about">About</a>
+                                        <a title="Home" class="nav-link navbar-button" href="/"><i class="fas fa-home mr-2"></i>HOME</a>
+                                        <a title="About" class="nav-link navbar-button" href="/about">ABOUT</a>
                                     </div>
-                    
+
                                     <!-- navbar top right -->
                                     <div class="navbar-nav">
-                                        <a title="Messages" class="mt-1 mr-3 nav-item nav-link" href="{{ url_for('users.messages') }}"><i class="far fa-envelope"></i></a>
-                                        <i title="Notifications" class="nav-item nav-link mt-1 mr-3 far fa-bell"></i>
-                                        <a title="Profile" class="nav-item nav-link mt-1 mr-3" href="{{ url_for('users.user_profile', username = current_user.username) }}"><i class="far fa-user-circle"></i></a>
-                                        <a title="Sign out" class="nav-item nav-link mt-1 ml-4" href="{{ url_for('users.logout') }}"><i class="far fa-times-circle"></i></a>
+                                        <a title="Messages" class="nav-link navbar-button" href="{{ url_for('users.messages') }}">INBOX</a>
+                                        <a title="Profile" class="nav-link navbar-button" href="{{ url_for('users.user_profile', username = current_user.username) }}">PROFILE</a>
+                                        <a title="Sign out" class="nav-link navbar-button" href="{{ url_for('users.logout') }}">LOGOUT</a>
                                     </div>
                                 </div>
                             </div>
                         </nav>
                     </div>
-                    
                 </div>
             </div>
         </nav>
@@ -72,10 +68,10 @@
 
     <!--flashed messages, container-->
     <main role="main" class="container">
-        <div class="row ">
-            <div class="col-md-1"></div>
+        <div class="row">
+
             <!-- displaying flashed messages -->
-            <div class="col-md-10">
+            <div class="col-auto box">
                 {% with messages = get_flashed_messages(with_categories=true) %}<!--with_categories_true - allows to grab btstrp class-->
                     {% if messages %}
                         {% for category, message in messages %}
@@ -88,7 +84,6 @@
                 
                 {% block content %}{% endblock %}   <!--child htmls are gonna override it-->
             </div>
-            <!-- right side menu -->
         </div>
     </main>
         

@@ -6,12 +6,12 @@ from wtforms.validators import DataRequired
 
 
 class CommentForm(FlaskForm):
-    comment = TextAreaField('Comment', validators=[DataRequired()], render_kw={"placeholder": "What do you think about this?", "rows": 1})
-    submit = SubmitField('Send')
+    comment = TextAreaField('Comment', validators=[DataRequired()], render_kw={"placeholder": "What do you think?", "rows": 1})
+    submit = SubmitField('Upload')
 
 
 class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()], render_kw={"placeholder": "Title"})
-    description = TextAreaField('Description', validators=[DataRequired()], render_kw={"placeholder": "Say something about it", "rows": 6})
-    content = FileField('Upload file', validators=[DataRequired(), FileAllowed(['mp3', 'mp4', 'jpg', 'png'])])
+    title = StringField('Title', render_kw={"placeholder": "Title"})
+    description = TextAreaField('Description', render_kw={"placeholder": "Say something about it", "rows": 6})
+    content = FileField('Upload file', validators=[FileAllowed(['mp3', 'mp4', 'jpg', 'png'])])
     submit = SubmitField('Upload')

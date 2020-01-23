@@ -56,7 +56,7 @@ def login():
         user = User.query.filter_by(email=login_form.email.data).first()  # checking if user with given email exists in out db. If he does, we're grabbing the first one, if not if returns "none"
         if user and bcrypt.check_password_hash(user.password, login_form.password.data):  # if user exists in db, and password is valid
             login_user(user, remember=login_form.remember.data)
-            return redirect(url_for('main.home_followed'))
+            return redirect(url_for('main.home_newest'))
         else:
             flash('E-mail or password incorrect. Try again', 'danger')
     return render_template('user/login.html', title='Login', login_form=login_form)

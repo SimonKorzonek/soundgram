@@ -34,7 +34,7 @@ def delete_comment(comment_id):
         abort(403)
     db.session.delete(comment)
     db.session.commit()
-    flash('Your comment has been successfuly deleted! :)', 'info')
+    flash('Your comment has been successfuly removed!', 'info')
     return redirect(request.referrer)
 
 
@@ -78,7 +78,7 @@ def edit_post(post_id):
     return render_template('posts/edit_post.html', title='Update Post', form=form, legend='Update Post')
 
 
-@posts.route("/post<post_id>/delete", methods=['POST'])
+@posts.route("/post/<post_id>/delete", methods=['POST', 'GET'])
 @login_required
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -91,7 +91,7 @@ def delete_post(post_id):
         os.remove('soundgram/static/content/' + post.content)
     db.session.delete(post)
     db.session.commit()
-    flash('Your post has been successfuly deleted! :)', 'info')
+    flash('Your post has been successfuly removed!', 'info')
     return redirect(url_for('main.home_followed'))
 
 

@@ -1,120 +1,165 @@
 <!--displaying posts-->
 {% for post in posts.items %}
     <article class="media content-section">
-        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
         <div class="media-body">
 
-            <!--post metadata, author options-->
-            <div class=" mb-4">
-                <small class="text-muted">by</small> 
-                <a class="mr-2" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ post.author.username }}</a>
-                <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small> <!-- strftime method allows to print out data in specyfic way -->
-
-                {% if post.author != current_user %}
-                    <div class="float-right mt-2 mr-1">
-                        <a class="btn-outline-secondary" href=#><i class="far fa-paper-plane"></i></a>
-                    </div>
-                {% endif %}
-            </div>
-
-            <!--displaying post content-->
-            <h5 class="mb-3 text-center"><a class="article-title" href="{{url_for('posts.view_post', post_id=post.id)}}">{{ post.title }}</a></h5>
-            <p class="article-content">{{ post.description }}</p>
-            
-            {% if post.content %}
-                {% if post.content.endswith('.mp3'): %}
-                    <audio controls class="row mb-3 mt-4" style="width: 98%;">
-                        <source src="/static/content/{{ post.content }}", type="audio/mpeg">
-                        Your browser does not support the audio element. Stop using explorerrrr!!
-                    </audio>
-                
-                {% elif post.content.endswith('.jpg'): %}
-                    <img class="mt-2 justify-content-center" style="max-width: 90%" src="/static/content/{{ post.content }}">
-                
-                {% elif post.content.endswith('.mp4'): %}
-                    <video controls class="mt-2" style="max-width: 90%">
-                        <source src="/static/content/{{ post.content }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                {% endif %}
-            {% endif %}
-
-            <!--like share buttons-->
-            <div class="row mt-4">
-                <div class="">
-                    <!--unlike button-->
-                    {% if current_user.has_liked_post(post) %}
-                        <a class="btn btn-lg pt-0" href="{{ url_for('posts.unlike', post_id=post.id) }}"><i class="fas fa-heartbeat"></i></i></a>
-                                        
-                    <!--like button-->
-                    {% else %}
-                    <a class="btn" href="{{ url_for('posts.like', post_id=post.id) }}"><i class="far fa-heart"></i></a>
+            <div class="row">
+                <div class="col-auto post-profile-picture">
+                    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+                </div>
+    
+                <!-- post metadata -->
+                <div class="col-auto post-metadata pl-0 pr-0">
+                    <small class="text-muted">by</small> 
+                    <a class="username" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ post.author.username }}</a>
+    
+                    <small class="date text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small> <!-- strftime method allows to print out data in specyfic way -->
+                </div>
+    
+                <div class="col pl-0">
+                    <!-- post author options dropdown icons -->
+                    {% if post.author == current_user %}
+                        <button id="chevron-icon" type="button" class="btn btn-sm pr-1 pt-0 post-options-collapse-icon float-right" data-toggle="collapse" href="#post-options-collapse" aria-expanded="false" aria-controls="post-options-collapse"><i class="fas fa-chevron-down"></i></button>
+                        <div id="post-options-collapse" class="collapse float-right">
+                            <a class="btn btn-sm pr-0 pt-0" href="{{ url_for('posts.edit_post', post_id=post.id) }}"><i id="edit-icon" class="far fa-edit comment-option-icon"></i></a>
+                            <a class="btn btn-sm pt-0" data-toggle="modal" data-target="#deletePostModal"><i id="delete-icon" class="far fa-trash-alt comment-option-icon mr-1"></i></a>
+                        </div>
                     {% endif %}
                 </div>
+            </div>
 
-                <div class="col-1 mt-1 text-muted">
-                        <small>{{ post.likes.count() }} likes</small>
-                    </div>
-
-
-                <!--comment form-->
-                <div class="col-8">
-                    <form method="POST" action="">
-                        {{ comment_form.hidden_tag() }}
-                        <fieldset class="form-group"> 
-                        
-                            <!--comment field validation-->
-                            {% if comment_form.comment.errors %}
-                                {{ comment_form.comment(class="form-control is-invalid") }}
-                                <div class="ivalid-feedback">
-                                {% for error in comment_form.comment.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                                </div>
-                            {%else%}
-                                {{ comment_form.comment(class="form-control ml-2 form-control") }} <!--passing form itself-->
-                            {%endif%}
-                        </fieldset>
-                </div> <!--this nesting is wrong, though it's the only way I figured out that works-->
-                    <!-- submit button -->
-                    <div class="col form-group">
-                        {{ comment_form.submit(class="btn btn-light") }}
-                    </div>
-                </form>
+            <!-- post title -->
+            <div class="post-title mt-2 mb-2">
+                <h5 id="post-header" class="text-center"><a class="article-title" href="{{url_for('posts.view_post', post_id=post.id)}}">{{ post.title }}</a></h5>
             </div>
 
 
+            <div class="post-content">
+                <!-- displaying post content -->
+                <p class="article-content ml-1">{{ post.description }}</p>
 
-            <!--displaying comments-->
-            {% if post.comments %}
-                {% if post.comments.count() > 0 %}
-                    {% for comment in post.comments %}
-                        <div class="row mt-1">
-                            <!--comment metadata-->
-                            <div class="col-3">
-                                <a class="mr-2 small" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ comment.author.username }}</a>
-                                <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
-                            </div>
+                {% if post.content %}
+                    {% if post.content.endswith('.mp3'): %}
+                        <audio controls class="row ml-1 mb-3 mt-4" style="width: 98%;">
+                            <source src="/static/content/{{ post.content }}", type="audio/mpeg">
+                            Your browser does not support the audio element. Please try different browser
+                        </audio>
 
-                            <!--comment itself-->
-                            <div class="col-lg">
-                                <p class="small mt-1 ml-2">{{ comment.comment }}</p>
-                            </div>
+                    {% elif post.content.endswith('.jpg'): %}
+                        <img class="mt-2 justify-content-center" style="max-width: 100%" src="/static/content/{{ post.content }}">
 
-                            <!--comment author options-->
-                            {% if comment.author == current_user %}
-                                <div class="mr-3">
-                                    <a class="btn-outline-secondary" href="{{ url_for('posts.edit_comment', comment_id=comment.id) }}"><i class="far fa-edit"></i></a>
-                                    <a class="btn-outline-secondary ml-2 mr-1" href="{{ url_for('posts.delete_comment', comment_id=comment.id) }}"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            {% endif %}
-
-                        </div>
-                    {% endfor %}
+                    {% elif post.content.endswith('.mp4'): %}
+                        <video controls class="mt-2" style="max-width: 98%">
+                            <source src="/static/content/{{ post.content }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
+
+
+                <div id="post-bar" class="row justify-content-center mt-2">
+                    <!-- unlike like icons -->
+                    <div id="like-comment-icon-box" class="col-auto">
+                        {% if current_user.has_liked_post(post) %}
+                            <a class="btn-lg btn pt-1 pr-1" href="{{ url_for('posts.unlike', post_id=post.id) }}"><i class="fas fa-heartbeat heartbeat-icon"></i></a>
+                        {% else %}
+                            <a class="btn-lg btn pt-1 pr-1" href="{{ url_for('posts.like', post_id=post.id) }}"><i class="far fa-heart heart-icon"></i></a>
+                        {% endif %}
+                        <small>{{ post.likes.count() }}</small>
+
+                        <!-- comment icon -->
+                        <a class="btn-lg btn ml-3 pt-1 pr-1" href="" data-toggle="" aria-expanded="" aria-controls=""><i class="far fa-comment comment-icon"></i></a>
+                        <small>{{ post.comments.count() }}</small>
+                    </div>
+
+                    <!-- new comment btn -->
+                    <div class="col-auto pl-0">
+                        <a class="btn btn-sm mt-1" href="{{url_for('posts.view_post', post_id=post.id)}}">new comment</a>
+                    </div>
+                </div>
+
+                <!-- displaying comments -->
+                {% if post.comments %}
+                    {% if post.comments.count() > 0 %}
+                        {% for comment in post.comments %}
+                            <div id="comment-box" class="row ml-2">
+
+                                <!-- comment metadata -->
+                                <div class="col-auto">
+                                    <a class="username small" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ comment.author.username }}</a>
+                                    <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
+                                </div>
+
+                                <!-- comment author options -->
+                                {% if comment.author == current_user %}
+                                    <button type="button" class="btn btn-sm pt-0 mr-1 comment-options-collapse-icon" data-toggle="collapse" href="#comment-options-collapse" aria-expanded="false" aria-controls="comment-options-collapse"><i class="fas fa-chevron-down mt-2"></i></button>
+                                {% endif %}
+
+                                <!-- comment author options dropdown -->
+                                {% if comment.author == current_user %}
+                                    <div id="comment-options-collapse" class="collapse row">
+                                        <div class="col ml-1">
+                                            <a class="btn btn-sm pt-1 pr-0" href="{{ url_for('posts.edit_comment', comment_id=comment.id) }}"><i id="edit-icon" class="far fa-edit comment-option-icon"></i></a>
+                                            <a class="btn btn-sm pt-1 pr-0" data-toggle="modal" data-target="#deleteCommentModal"><i id="delete-icon" class="far fa-trash-alt comment-option-icon"></i></a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                <!-- comment itself -->
+                                <div class="row-auto ml-4" style="min-width: 90%;">
+                                    <p class="small mr-3">{{ comment.comment }}</p>
+                                </div>
+                            </div>
+
+                            <!-- delete comment modal -->
+                            <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Delete Comment?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <form action="{{ url_for('posts.delete_comment', comment_id=comment.id) }}" method="POST">
+                                                <input class="btn btn-danger" type="submit" value="Delete">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
     </article>
+
+    <!-- delete post modal -->
+    <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endfor %}
 
 <!--pagination-->
@@ -131,3 +176,6 @@
         {% endif %}
     {% endfor %}
 </div>
+
+
+
