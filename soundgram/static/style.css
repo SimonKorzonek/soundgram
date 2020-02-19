@@ -12,9 +12,10 @@ body{
 
 .navbar-brand{
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: thin;
-  letter-spacing: 4px;}
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
+  letter-spacing: 4px;
+  font-size: 140%;}
 
 h1, h2, h3, h4, h5, h6{
   color: #444444;}
@@ -41,9 +42,17 @@ h1, h2, h3, h4, h5, h6{
   padding: 9px;
   margin: 0% 8% 1% 8%;}
 
-.box{
-  padding: 0px 7px 0px 7px;}
+#profile-section-container{
+  margin: 1% 10% 0% 10%;}
 
+#profile-section-username-header{
+  font-size: 150%;
+  font-weight: 400;}
+
+.box{
+  padding: 0px 5px 0px 5px;
+  min-width: 100%;}
+ 
 .article-title{
   padding: 0px 20px 0px 20px;
   color: #444444;
@@ -69,6 +78,32 @@ a.article-title:hover{
 .account-heading{
   font-size: 2.5rem;}
 
+#unfollow-icon, #follow-icon, #message-icon{
+  position: relative;
+  top: 3px;
+  font-size: 150%;}
+
+#unfollow-icon, #follow-icon{
+  color: rgba(200, 0, 0, 0.75);}
+
+#message-icon{
+  color: rgb(60, 130, 190);}
+
+#follow-button, #unfollow-button, #message-button, #edit-profile-button{
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: 500;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 7px 15px 7px 10px;}
+
+#edit-profile-button{
+  color: rgba(0, 0, 0, 0.65);
+  text-decoration: none;}
+
+#edit-profile-icon{
+  color: rgb(60, 130, 190);;}
+
 .fab{
   font-size: 25px;}
 
@@ -77,14 +112,6 @@ a.article-title:hover{
 
 .big-banner{
   background-image: url('../static/pics/welcome.JPG')}
-
-#profile-heartbeat-icon, #profile-envelope-icon{
-  color: rgba(0, 0, 0, 0.8);
-  font-size: 150%;}
-
-.profile-icons{
-  font-size: 125%;
-  margin-top: 0px;}
 
 #like-comment-icon-box{
   left: -5vh;}
@@ -100,10 +127,10 @@ a.article-title:hover{
 .comment-option-icon{
   font-size: 18px;}
 
-#edit-icon{
-  color: rgb(42, 141, 255);}
+.edit-icon, #add-comment-icon{
+  color: rgb(60, 130, 190);}
 
-#delete-icon{
+.delete-icon{
   color: rgb(139, 0, 0);}
 
 .heart-icon, .heartbeat-icon{
@@ -114,10 +141,39 @@ a.article-title:hover{
   font-size: 110%;
   color: rgba(0, 0, 0, 0.5);}
 
-#testing-button{
-  color:rgba(34, 34, 34, 0.788);
-  padding: 0px 20px 5px 20px;
-  border-bottom: 2px solid rgb(5, 122, 255);}
+#add-comment-container{
+  height: 33px;
+  position: relative;
+  top: 3px;}
+
+#add-comment-icon{
+  position: relative;
+  top: 1px;
+  padding: 0px 0px 0px 10px;
+  font-size: 70%;}
+
+#add-comment-button{
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+  padding-left: 0;}
+
+#upload-comment-container{
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  padding: 3px 10px 0px 10px;
+  position: relative;
+  left: 23px;}
+
+#upload-comment-button{
+  color:rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+  padding: 0px 0px 0px 0px;}
+
+#comment-text-field{
+  width: 132%;
+  position: relative;
+  left: -25px;
+}
 
 .following-newest-button-active, .following-newest-button-disabled, .newpost-button{
   text-decoration: none;
@@ -140,7 +196,7 @@ a.article-title:hover{
   color: rgba(0, 0, 0, 0.6);}
 
 .pen-icon{
-  color: rgb(63, 130, 189);}
+  color: rgb(60, 130, 190);}
 
 .username{
   color: rgb(59, 120, 173);}
@@ -149,6 +205,20 @@ a.article-title:hover{
   color: rgba(0, 0, 0, 0.5);
   top: -5%;}
 
+#upload-post-button{
+  border: none;
+  background-color:rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 0, 0.57);
+  font-weight: 500;
+  margin-top: 2px;}
+
+#upload-icon{
+  margin: 6px 6px 0px 0px;
+  color: rgb(60, 130, 190);
+  font-size: 120%;}
+
+#upload-post-container{
+  margin-top: 2px;}
 
 
 
@@ -173,6 +243,9 @@ a.article-title:hover{
 
   .content-section{
     margin: 0% 1% 1% 1%;}
+
+  #profile-section-container{
+    margin: 1% 1% 0% 1%;}
 
   .newest-followed-buttons{
     margin: 0px 5px 0px 5px;}

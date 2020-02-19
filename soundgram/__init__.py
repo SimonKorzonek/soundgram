@@ -26,6 +26,7 @@ def create_app(config_class=Config):
     from soundgram.users.routes import users
     from soundgram.posts.routes import posts
     from soundgram.main.routes import main
+
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)

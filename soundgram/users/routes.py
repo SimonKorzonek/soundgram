@@ -27,7 +27,7 @@ def send_message(recipient):
         msg = Message(author=current_user, recipient=user, body=message_form.message.data)
         db.session.add(msg)
         db.session.commit()
-        flash('Your message has been sent.')
+        flash('Your message has been sent.', 'success')
         return redirect(url_for('main.home_newest', username=recipient))
     return render_template('user/message.html', title=('Send Message'), message_form=message_form, recipient=recipient)
 
@@ -78,18 +78,20 @@ def edit_profile(username):
     form = UpdateAccountForm()
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
-    posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=2)
+    posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=2)  # why is it here?
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
+        current_user.bio = form.bio.data
         db.session.commit()
         flash('Your profile has been updated!', 'info')
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+        form.bio.data = current_user.bio
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('user/edit_profile.html', posts=posts, user=user, form=form, image_file=image_file)
 

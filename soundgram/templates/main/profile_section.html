@@ -1,87 +1,89 @@
 {% include "main/navbar.html" %} 
+<div id="profile-section-container">
+    <div class="col-12 box">
+        <div class="media content-section">
+            <div class="media-body">
 
-<main role="main" class="container">
-    <div class="row">
-        <div class="col-12 box">
-            <div class="media content-section">
-                <div class="media-body">
+                <!-- profile pic username email-->
+                <div class="row">
 
-                    <!-- profile pic username email-->
-                    <div class="row">
-                            <!-- profile pic -->
-                            <div class="col-auto">
-                                <img class="rounded-circle account-img img-fluid" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
-                            </div>
-
-                            <div class="col">
-                                <!-- username -->
-                                <div class="row">
-                                    <legend><a style="text-decoration: none; color:#404040;" href="{{ url_for('users.user_profile', username=user.username)}}">{{ user.username }}</a></legend>
-                                </div>
-
-                                <!-- e-mail -->
-                                <div class="row">
-                                    <em><small class=text-muted>{{ user.email }}</small></em>
-                                </div>
-                            </div>
+                    <!-- profile pic -->
+                    <div class="col-auto">
+                        <img alt="profile picture" class="rounded-circle account-img img-fluid" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
                     </div>
 
-                    <!-- edit profile follow following -->
-                    <div class="row mt-3 mb-2 justify-content-center">
-                            <!-- edit your profile -->
-                            {% if user == current_user %}
-                                <div class="col-auto">
-                                    <a class="btn btn-sm btn-outline-info pr-3" href="{{ url_for('users.edit_profile', username=user.username) }}"><i class="fas fa-edit mr-2 ml-1 profile-icons"></i>Edit your profile</a>
-                                </div>
+                    <div class="col">
+                        <!-- username -->
+                        <div class="row">
+                            <h1 id="profile-section-username-header"><a id="profile-section-username-link" style="text-decoration: none; color: rgba(0, 0, 0, 0.75);" href="{{ url_for('users.user_profile', username=user.username)}}">{{ user.username }}</a></h1>
+                        </div>
 
-                            <!-- follow / following -->
-                            {% elif not current_user.is_following(user) %}
-                                <div class="col-auto pr-0">
-                                    <a class="btn btn-sm btn-outline-success pr-3 ml-3" href="{{ url_for('users.follow', username=user.username) }}"><i class="fas fa-heart mr-2 ml-1 profile-icons"></i>Follow</a>
-                                </div>
-                            {% else %}
-                                <div class="col-auto pr-0">
-                                      <div class="btn-group">
-                                        <a class="btn btn-sm btn-outline-success" href="{{ url_for('users.unfollow', username=user.username) }}"><i class="fas fa-heartbeat mr-2 ml-1 profile-icons"></i>Following</a>
-                                      </div>
-                                </div>
-                            {% endif %}
+                        <!-- email -->
+                        <div class="row">
+                            <em><small class=text-muted>{{ user.email }}</small></em>
+                        </div>
+                    </div>
+                </div>
 
-                            <!-- send message -->
-                            {% if user != current_user %}
-                                <div class="col-auto">
-                                    <a class="btn btn-sm btn-outline-info pr-2" href="{{ url_for('users.send_message', recipient=user.username) }}"><i class="fas fa-envelope mr-2 ml-1 profile-icons"></i>Message</a>
-                                </div>
-                            {% endif %}
+                <!-- edit profile follow following -->
+                <div class="row mt-4 mb-2 justify-content-center">
+
+                    <!-- edit your profile -->
+                    {% if user == current_user %}
+                        <div class="col-auto">
+                            <a id="edit-profile-button" class="pr-3" href="{{ url_for('users.edit_profile', username=user.username) }}"><i id="edit-profile-icon" class="far fa-edit mr-2 ml-1"></i>Edit your profile</a>
+                        </div>
+
+                    <!-- follow / following -->
+                    {% elif not current_user.is_following(user) %}
+                        <div class="col text-center pr-0">
+                            <a id="follow-button" href="{{ url_for('users.follow', username=user.username) }}"><i id="follow-icon" class="far fa-heart mr-2 ml-1"></i>Follow</a>
+                        </div>
+                    {% else %}
+                        <div class="col text-center pr-0">
+                            <a id="unfollow-button" href="{{ url_for('users.unfollow', username=user.username) }}"><i id="unfollow-icon" class="fas fa-heartbeat mr-2 ml-1"></i>Following</a>
+                        </div>
+                    {% endif %}
+
+                    <!-- send message -->
+                    {% if user != current_user %}
+                        <div class="col text-center">
+                            <a id="message-button" href="{{ url_for('users.send_message', recipient=user.username) }}"><i id="message-icon" class="far fa-envelope mr-2 ml-1"></i>Message</a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- posts followers following -->
+                <div class="row justify-content-center pt-2 mb-3 pb-2">
+
+                    <!-- posts total -->
+                    <div class="col-3 text-center pl-0 pr-0">
+                        <a class="btn btn-sm pl-0" href="{{ url_for('users.user_profile', username=user.username) }}"><b>{{ posts.total }}</b><br> Posts</a>
                     </div>
 
-                    <!-- posts followers following -->
-                    <div class="row justify-content-center pt-2 mb-3 pb-2">
-
-                            <!-- posts total -->
-                            <div class="col-3 text-center pl-0 pr-0">
-                                <a class="btn btn-sm pl-0" href="{{ url_for('users.user_profile', username=user.username) }}"><b>{{ posts.total }}</b><br> Posts</a>
-                            </div>
-                        
-                            <!-- followers -->
-                            <div class="col-3 text-center pl-0 pr-0">
-                                <a class="btn btn-sm pl-0" href="{{ url_for('users.followed_by', username=user.username) }}"><b class="">{{ user.followers.count() }}</b><br>Followers </a>
-                            </div>
-                        
-                            <!-- following -->
-                            <div class="col-3 text-center pl-0 pr-0">
-                                <a class="btn btn-sm pl-0" href="{{ url_for('users.is_following', username=user.username) }}"><b class=>{{ user.followed.count() }} </b><br> Following</a>
-                            </div>
+                    <!-- followers -->
+                    <div class="col-3 text-center pl-0 pr-0">
+                        <a class="btn btn-sm pl-0" href="{{ url_for('users.followed_by', username=user.username) }}"><b>{{ user.followers.count() }}</b><br>Followers </a>
                     </div>
 
-                    <!--bio-->
-                    <p class="text-muted text-center"> Default bio is stating you're tomato, friend :)</p>
+                    <!-- following -->
+                    <div class="col-3 text-center pl-0 pr-0">
+                        <a class="btn btn-sm pl-0" href="{{ url_for('users.is_following', username=user.username) }}"><b>{{ user.followed.count() }} </b><br> Following</a>
+                    </div>
+                </div>
+
+                <!--bio-->
+                <div class="row justify-content-center">
+                    {% if user.bio %}
+                        <p class="text-muted text-center" style="max-width: 80%;"> {{ user.bio }} </p>
+                    {% else %}
+                        <p class="text-muted text-center" style="max-width: 80%;">default bio is stating you're tomato, my friend</p>
+                    {% endif %}
                 </div>
             </div>
-
-            {% block content %}{% endblock %}
-
         </div>
+        {% block content %}{% endblock %}
     </div>
-</main>
+</div>
+
 

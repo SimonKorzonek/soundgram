@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <!-- BOOTSTRAP-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -19,16 +18,14 @@
     <header class="site-header">
         <nav id="navbar" class="navbar navbar-expand-md navbar-dark fixed-top">
             <div class="container">
-
                 <a href="/" class="navbar-brand mb-0">SOUNDGRAM</a>
-                <!--data-target attribute contains selector pointing to element that will be changed.-->
 
                 <!-- navbar button -->
-                <button label="menu_button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
                     <span class="navbar-toggler-icon"></span> <!-- menu button-->
                 </button>
 
-                <!-- responsive collapsing navbar top -->                
+                <!-- responsive collapsing navbar top -->
                 <div class="collapse navbar-collapse" id="navbarToggle">
 
                     <!-- navbar top right -->
@@ -38,7 +35,7 @@
                                 <a class="navbar-brand" href="/">SOUNDGRAM</a>
 
                                 <!-- navbar button -->
-                                <button label="menu_button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
 
@@ -48,7 +45,7 @@
                                     <!-- navbar top left -->
                                     <div class="navbar-nav mr-auto mt-1">
                                         <a title="Home" class="nav-link navbar-button" href="/"><i class="fas fa-home mr-2"></i>HOME</a>
-                                        <a title="About" class="nav-link navbar-button" href="/about">ABOUT</a>
+                                        <a title="About" class="nav-link navbar-button" href="https://simonkorzonek.github.io/portfolio.page/soundgram.html">ABOUT</a>
                                     </div>
 
                                     <!-- navbar top right -->
@@ -66,29 +63,26 @@
         </nav>
     </header>
 
-    <!--flashed messages, container-->
-    <main role="main" class="container">
+    <!-- flashed messages, container -->
+    <main class="container">
         <div class="row">
 
             <!-- displaying flashed messages -->
             <div class="col-auto box">
-                {% with messages = get_flashed_messages(with_categories=true) %}<!--with_categories_true - allows to grab btstrp class-->
+                {% with messages = get_flashed_messages(with_categories=true) %}<!-- with_categories_true - allows to grab btstrp class -->
                     {% if messages %}
                         {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">
-                                <li>{{ message }}</li>
+                            <div class="alert alert-{{ category }} text-center mt-1 mb-2">
+                                {{ message }}
                             </div>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
-                
-                {% block content %}{% endblock %}   <!--child htmls are gonna override it-->
+
+                {% block content %}{% endblock %}   <!-- child htmls are gonna override it -->
             </div>
         </div>
     </main>
-        
-        
-        
 
 
     <!--bootstrap scripts-->

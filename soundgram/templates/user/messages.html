@@ -1,32 +1,26 @@
 {% extends "main/navbar.html" %}
 
 {% block content %}
+    {% if messages.count() > 0 %}
+        <h4 class="text-center pb-1 pt-2">Messages recived</h4>
+    {% else %}
+        <h4 class="text-center pb-1 pt-2">No messages yet</h4>
+    {% endif %}
 
-<legend class="text-center mb-3">Messages</legend>
+    {% for message in messages %}
+        <article class="media content-section">
+            <img alt="sender profile picture" class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + message.author.image_file) }}">
 
-{% for message in messages %}
+            <!-- message metadata -->
+            <div class="col media-body">
+                <div class="mb-4">  
+                    <a class="mr-2" href="{{ url_for('users.user_profile', username=message.author.username) }}">{{ message.author.username }}</a>
+                    <small class="text-muted">{{ message.timestamp.strftime('%d-%m-%Y') }}</small>
+                </div>
 
-
-    <article class="media content-section">
-
-        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + message.author.image_file) }}">
-
-
-        <div class="col media-body">
-            <!--message metadata-->
-            <div class=" mb-4">  
-                <a class="mr-2" href="{{ url_for('users.user_profile', username=message.author.username) }}">{{ message.author.username }}</a>
-                <small class="text-muted">{{ message.timestamp.strftime('%d-%m-%Y') }}</small>
+                <!--displaying message content-->
+                <p class="article-content">{{ message.body }}</p>
             </div>
-
-            <!--displaying message content-->
-            <p class="article-content">{{ message.body }}</p>
-        </div>
-    </article>
-
-{% endfor %}
-
-
-
-
+        </article>
+    {% endfor %}
 {% endblock %}

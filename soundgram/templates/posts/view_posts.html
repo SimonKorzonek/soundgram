@@ -5,24 +5,23 @@
 
             <div class="row">
                 <div class="col-auto post-profile-picture">
-                    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+                    <img alt="profile picture" class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
                 </div>
-    
+
                 <!-- post metadata -->
                 <div class="col-auto post-metadata pl-0 pr-0">
                     <small class="text-muted">by</small> 
                     <a class="username" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ post.author.username }}</a>
-    
                     <small class="date text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small> <!-- strftime method allows to print out data in specyfic way -->
                 </div>
-    
+
                 <div class="col pl-0">
                     <!-- post author options dropdown icons -->
                     {% if post.author == current_user %}
                         <button id="chevron-icon" type="button" class="btn btn-sm pr-1 pt-0 post-options-collapse-icon float-right" data-toggle="collapse" href="#post-options-collapse" aria-expanded="false" aria-controls="post-options-collapse"><i class="fas fa-chevron-down"></i></button>
                         <div id="post-options-collapse" class="collapse float-right">
-                            <a class="btn btn-sm pr-0 pt-0" href="{{ url_for('posts.edit_post', post_id=post.id) }}"><i id="edit-icon" class="far fa-edit comment-option-icon"></i></a>
-                            <a class="btn btn-sm pt-0" data-toggle="modal" data-target="#deletePostModal"><i id="delete-icon" class="far fa-trash-alt comment-option-icon mr-1"></i></a>
+                            <a class="btn btn-sm pr-0 pt-0" href="{{ url_for('posts.edit_post', post_id=post.id) }}"><i class="far fa-edit comment-option-icon edit-icon"></i></a>
+                            <a class="btn btn-sm pt-0" data-toggle="modal" data-target="#deletePostModal"><i class="far fa-trash-alt comment-option-icon mr-1 delete-icon"></i></a>
                         </div>
                     {% endif %}
                 </div>
@@ -41,12 +40,12 @@
                 {% if post.content %}
                     {% if post.content.endswith('.mp3'): %}
                         <audio controls class="row ml-1 mb-3 mt-4" style="width: 98%;">
-                            <source src="/static/content/{{ post.content }}", type="audio/mpeg">
+                            <source src="/static/content/{{ post.content }}" type="audio/mpeg">
                             Your browser does not support the audio element. Please try different browser
                         </audio>
 
                     {% elif post.content.endswith('.jpg'): %}
-                        <img class="mt-2 justify-content-center" style="max-width: 100%" src="/static/content/{{ post.content }}">
+                        <img alt="post content photo" class="mt-2 justify-content-center" style="max-width: 100%" src="/static/content/{{ post.content }}">
 
                     {% elif post.content.endswith('.mp4'): %}
                         <video controls class="mt-2" style="max-width: 98%">
@@ -68,13 +67,14 @@
                         <small>{{ post.likes.count() }}</small>
 
                         <!-- comment icon -->
-                        <a class="btn-lg btn ml-3 pt-1 pr-1" href="" data-toggle="" aria-expanded="" aria-controls=""><i class="far fa-comment comment-icon"></i></a>
+                        <a class="btn-lg btn ml-3 pt-1 pr-1"><i class="far fa-comment comment-icon"></i></a>
                         <small>{{ post.comments.count() }}</small>
                     </div>
 
                     <!-- new comment btn -->
-                    <div class="col-auto pl-0">
-                        <a class="btn btn-sm mt-1" href="{{url_for('posts.view_post', post_id=post.id)}}">new comment</a>
+                    <div id="add-comment-container">
+
+                        <a id="add-comment-button" class="btn btn-sm" href="{{url_for('posts.view_post', post_id=post.id)}}">comment</a>
                     </div>
                 </div>
 
@@ -87,7 +87,7 @@
                                 <!-- comment metadata -->
                                 <div class="col-auto">
                                     <a class="username small" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ comment.author.username }}</a>
-                                    <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
+                                    <small class="text-muted">{{ comment.date_posted.strftime('%d-%m-%Y') }}</small>
                                 </div>
 
                                 <!-- comment author options -->
@@ -99,8 +99,8 @@
                                 {% if comment.author == current_user %}
                                     <div id="comment-options-collapse" class="collapse row">
                                         <div class="col ml-1">
-                                            <a class="btn btn-sm pt-1 pr-0" href="{{ url_for('posts.edit_comment', comment_id=comment.id) }}"><i id="edit-icon" class="far fa-edit comment-option-icon"></i></a>
-                                            <a class="btn btn-sm pt-1 pr-0" data-toggle="modal" data-target="#deleteCommentModal"><i id="delete-icon" class="far fa-trash-alt comment-option-icon"></i></a>
+                                            <a class="btn btn-sm pt-1 pr-0" href="{{ url_for('posts.edit_comment', comment_id=comment.id) }}"><i class="far fa-edit comment-option-icon edit-icon"></i></a>
+                                            <a class="btn btn-sm pt-1 pr-0" data-toggle="modal" data-target="#deleteCommentModal"><i class="far fa-trash-alt comment-option-icon delete-icon"></i></a>
                                         </div>
                                     </div>
                                 {% endif %}
@@ -112,11 +112,11 @@
                             </div>
 
                             <!-- delete comment modal -->
-                            <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel">Delete Comment?</h5>
+                                            <h5 class="modal-title" id="deleteCommentModalLabel">Delete Comment?</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -131,7 +131,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         {% endfor %}
                     {% endif %}
                 {% endif %}
@@ -140,11 +139,11 @@
     </article>
 
     <!-- delete post modal -->
-    <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="deletePostModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                    <h5 class="modal-title" id="deletePostModalLabel">Delete Post?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -158,24 +157,19 @@
             </div>
         </div>
     </div>
-
-
 {% endfor %}
 
 <!--pagination-->
-<div class="text-center mb-3">
-    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}  <!-- pagination -->
+<div class="text-center mb-2 mt-2">
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num %}
             {% if posts.page == page_num %}
-                <a class="btn btn-info" href="{{ url_for('main.home_newest', page=page_num) }}">{{ page_num }}</a>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('main.home_newest', page=page_num) }}">{{ page_num }}</a>
             {% else %}
-                <a class="btn btn-outline-info " href="{{ url_for('main.home_newest', page=page_num) }}">{{ page_num }}</a>
-            {% endif %}    
+                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('main.home_newest', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
         {% else %}
             ...
         {% endif %}
     {% endfor %}
 </div>
-
-
-

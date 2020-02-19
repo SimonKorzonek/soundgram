@@ -1,31 +1,31 @@
 {% extends "main/navbar.html" %}   <!--inheritance - child of layout.html-->
 
 {% block content %}
-    <div class="row mb-2 mt-2">
-        <div class="input-group">
-            <div class="col newest-followed-buttons mt-2 mb-1">
 
-                <!-- following newest -->
-                {% if url_for(request.endpoint) == '/home_followed' %}
-                    <a class="following-newest-button-active mr-2 ml-1" href="{{ url_for('main.home_followed') }}">FOLLOWING</a>
-                    <a class="following-newest-button-disabled" href="{{ url_for('main.home_newest') }}">NEWEST</small></a>
-                {% elif url_for(request.endpoint) == '/home_newest' %}
-                <a class="following-newest-button-active mr-2 ml-1" href="{{ url_for('main.home_newest') }}">NEWEST</small></a>
+    <div class="input-group pt-2 mb-1">
+        <div class="col newest-followed-buttons mb-1">
+
+            <!-- following newest -->
+            {% if url_for(request.endpoint) == '/home_followed' %}
+                <a class="following-newest-button-active mr-2 ml-1" href="{{ url_for('main.home_followed') }}">FOLLOWING</a>
+                <a class="following-newest-button-disabled" href="{{ url_for('main.home_newest') }}">NEWEST</a>
+            {% elif url_for(request.endpoint) == '/home_newest' %}
+                <a class="following-newest-button-active mr-2 ml-1" href="{{ url_for('main.home_newest') }}">NEWEST</a>
                 <a class="following-newest-button-disabled " href="{{ url_for('main.home_followed') }}">FOLLOWING</a>
-                {% endif %}
+            {% endif %}
 
-                <!-- newpost button -->
-                <a class="newpost-button float-right" data-toggle="collapse" href="#new-post-collapse" aria-expanded="false" aria-controls="new-post-collapse"><i class="fas fa-pen pen-icon mr-1"></i> New Post </a>
-            </div>
+            <!-- newpost button -->
+            <a class="newpost-button float-right" data-toggle="collapse" href="#new-post-collapse" aria-expanded="false" aria-controls="new-post-collapse"><i class="fas fa-pen pen-icon mr-1"></i> New Post </a>
         </div>
     </div>
 
+
     <!-- newpost collapsing form -->
-    <div class="collapse mb-3" id="new-post-collapse">
-        <form id="newpost-form" method="POST" action="" enctype="multipart/form-data">
+    <div class="collapse mb-2" id="new-post-collapse">
+        <form id="newpost-form" method="POST" enctype="multipart/form-data">
 
             {{ post_form.hidden_tag() }}
-            <fieldset class="form-group">
+            <fieldset class="form-group mb-0">
 
                 <!-- .title field validation -->
                 <div class="form-group">
@@ -59,7 +59,7 @@
             <div class="row justify-content-center">
 
                 <!-- upload content field -->
-                <div label="upload_content" class="row form-group">
+                <div class="row form-group">
                     {{ post_form.content(method="post", class="form-control-content form-control-sm ", enctype="multipart/form-data") }}
                     {% if post_form.content.errors %}
                         {% for error in post_form.content.errors %}
@@ -69,13 +69,13 @@
                 </div>
 
                 <!-- submit button -->
-                <div class="row form-group">
-                    </i>{{ post_form.submit(class="btn btn-sm btn-success") }}
+                <div id="upload-post-container" class="row form-group">
+                    <i id="upload-icon" class="fas fa-upload"></i>
+                    {{ post_form.submit(id="upload-post-button", class="btn btn-sm") }}
                 </div>
             </div>
         </form>
     </div>
-
 
     {% include 'posts/view_posts.html' %}
 

@@ -1,23 +1,25 @@
 {% extends "main/layout_welcome.html" %}      
 
 {% block content %}
-
     <div class="row content-section justify-content-center">
+        <div id="welcome-heading-container">
+            <div class="row">
+                <h1 id="welcome-header">SOUNDGRAM</h1><br><br>
+            </div>
+            <div class="row justify-content-center mt-1">
+                <i class="small" id="welcome-slang">all you need from the internet</i>
+            </div>
+        </div>
 
         <div class="box">
             <div class="box-dimmed">
-                <div class="col"> 
-                </div>
-            
-                <form method="POST" action="">
+                <legend class="mb-3 pt-3 text-center welcome-legend">Reset your password</i></legend>
+                <form method="POST">
                     {{ form.hidden_tag() }}
-                
+
                     <fieldset class="form-group">
-                        <p class="ml-2 pt-5 pb-3 welcome_legend text-center">Reset password token will be sent to your e-mail adress</p>
-                    
                         <!-- email field validation-->
                         <div class="form-group">
-
                             {% if form.email.errors %}
                                 {{ form.email(class="form-control form-control-lg is-invalid") }}
                                 <div class="invalid-feedback">
@@ -29,37 +31,26 @@
                                 {{ form.email(class="form-control form-control-md") }}
                             {% endif %}
                         </div>
-                    
                     </fieldset>
-                
+
                     <!-- submit button -->
-                    <div class="form-group pl-3 mb-5 text-center">
+                    <div class="form-group pl-3 mb-4 text-center">
                         {{ form.submit(class="btn btn-sm btn-outline-light") }}
                     </div>
-                
-                    <!-- need account?-->
-                    <div class="text-center pb-3">
-                        <small class="welcome_legend ml-3">
-                            Need account? <a class="" href="{{ url_for('users.register')}}">Create one</a>
-                        </small>
-                    </div>
                 </form>
-            
-                <div class="col">
+
+                <!-- need account? -->
+                <div class="text-center mt-3 pb-0">
+                    <small id="need-acc-forgot-pswd">
+                        Need account? <a href="{{ url_for('users.register')}}">Create one!</a><br>
+                        Already registered? <a class="ml-2" href="{{ url_for('users.login')}}">Sign in!</a>
+                    </small>
                 </div>
             </div>
         </div>
     </div>
 
 {% endblock %}
-
-
-<div class="pt-3 pb-3 pl-3">
-    <small class="text-muted">
-        Need account? <a class="ml-2" href="{{ url_for('users.login')}}">Create one</a>
-    </small>
-</div>
-
 
 
 

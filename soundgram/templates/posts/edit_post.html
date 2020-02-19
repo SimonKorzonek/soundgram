@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="content-section pt-3">
-    <form method="POST" action="" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <p class="mb-4 text-center pt-3 ml-4 text-muted ">Update your post</p>
@@ -36,7 +36,7 @@
             </div>
 
            <!-- upload content field -->
-            <div label="upload_content" class="form-group text-center mt-4">
+            <div class="form-group text-center mt-4">
                 {{ form.content.label() }} <br>
                 {{ form.content(method="post", class="form-control-content mt-4 ml-5", enctype="multipart/form-data") }}
                 {% if form.content.errors %}

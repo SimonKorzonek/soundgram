@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from soundgram.models import User  # for form validation
+from soundgram.models import User  # import of form validation
 
 
 class RegForm(FlaskForm):
@@ -35,7 +35,8 @@ class LogForm(FlaskForm):
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+    bio = StringField('Bio', render_kw={'rows': 3})
+    picture = FileField('Profile picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
 
     # username validation
@@ -60,14 +61,15 @@ class ResetPasswordForm(FlaskForm):
 
 
 class ForgotForm(FlaskForm):
-    email = StringField('E-mail', validators=[DataRequired(), Email()], render_kw={"placeholder": "Enter e-mail connected to password"})
-    submit = SubmitField('Submit')
+    email = StringField('E-mail', validators=[DataRequired(), Email()], render_kw={"placeholder": "Enter your e-mail"})
+    submit = SubmitField('Send reset request')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is None:
             raise ValidationError('There is no account with that email. You must register first.')
 
+
 class MessageForm(FlaskForm):
-    message = TextAreaField('Message', validators=[DataRequired(), Length(min=0, max=140)])
+    message = TextAreaField('Message', validators=[DataRequired(), Length(min=1, max=1000)])
     submit = SubmitField('Submit')

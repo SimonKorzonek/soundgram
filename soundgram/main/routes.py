@@ -3,7 +3,7 @@ from flask import flash, request
 from flask import render_template
 from flask import redirect
 from soundgram.models import Post
-from soundgram.posts.forms import PostForm, CommentForm
+from soundgram.posts.forms import PostForm
 from soundgram.users.utils import save_media_file
 from soundgram import db
 from flask_login import current_user, login_required
@@ -41,8 +41,11 @@ def home_followed():
     posts = user.followed_posts().order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     post_form = PostForm()
     if post_form.validate_on_submit():
-        content_file = save_media_file(post_form.content.data)
-        post = Post(title=post_form.title.data, description=post_form.description.data, content=content_file, author=current_user)
+        if post_form.content.data:
+            content_file = save_media_file(post_form.content.data)
+            post = Post(title=post_form.title.data, description=post_form.description.data, content=content_file, author=current_user)
+        else:
+            post = Post(title=post_form.title.data, description=post_form.description.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'info')

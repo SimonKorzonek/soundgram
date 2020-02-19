@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired
 
 class CommentForm(FlaskForm):
     comment = TextAreaField('Comment', validators=[DataRequired()], render_kw={"placeholder": "What do you think?", "rows": 1})
-    submit = SubmitField('Upload')
+    submit = SubmitField('Send')
 
 
 class PostForm(FlaskForm):

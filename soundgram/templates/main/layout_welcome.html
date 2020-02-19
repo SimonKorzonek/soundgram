@@ -14,64 +14,26 @@
     {% endif %}
 </head>
 
-
 <body> 
     <section>
-        <header class="site-header"><!--navbar-expand-md - resp. collap. class-->
-            <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-                <div class="container">
-
-                
-                    <a class="navbar-brand" href="/">Soundgram</a>
-                    <!--data-target attribute contains selector pointing to element that will be changed.-->
-
-                    <!-- navbar button -->
-                    <button label="menu_button" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
-                        <span class="navbar-toggler-icon"></span> <!-- menu button-->
-                    </button>
-
-                    <!-- responsive collapsing navbar top -->                
-                    <div class="collapse navbar-collapse" id="navbarToggle"><!-- that's what's collapsing-->
-                    
-                        <!-- navbar top left -->
-                        <div class="navbar-nav mr-auto mt-1">
-                            <a class="nav-item nav-link" href="/">Home</a>
-                            <a class="nav-item nav-link" href="/about">About</a>
-                        </div>
-                    
-                        <!-- forgot password? -->
-                        <div class="row text-center">
-                            <small class="welcome_legend">
-                                Forgot password? <a class="ml-1" href="{{ url_for('users.reset_request')}}">Recover it</a>
-                            </small>
-                        
-                        </div>
-                    
-                    </div>
-                </div>
-            
-            </nav>
-        </header>
-
         <main role="main" class="container">
             <div class="row ">
                 <div class="col-md-1"></div>
-                
+
                 <!-- displaying flashed messages -->
                 <div class="col-md-10">
-                    {% with messages = get_flashed_messages(with_categories=true) %}<!--with_categories_true - allows to grab btstrp class-->
+                    {% with messages = get_flashed_messages(with_categories=true) %}<!--with_categories_true - grab bootstrap classes-->
                         {% if messages %}
                             {% for category, message in messages %}
                                 <div class="alert alert-{{ category }}">
-                                    <li>{{ message }}</li>
+                                    {{ message }}
                                 </div>
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
-                            
-                    {% block content %}{% endblock %}   <!--child htmls are gonna override it-->
+
+                    {% block content %}{% endblock %}
                 </div>
-                <!-- right side menu -->
             </div>
         </main>
     </section>

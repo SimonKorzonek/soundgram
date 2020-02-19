@@ -8,7 +8,7 @@
             <p class="text-center text-muted">Followed by:</p>
             {% for user in user.followers %}
                 <div class="ml-1 mb-3">
-                    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
+                    <img alt="user profile picture" class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
                     <a class="btn btn-sm btn-light ml-1" href="{{ url_for('users.user_profile', username=user.username) }}">{{ user.username }}</a>
                     <small class="text-muted disabled userlist-email ml-3">{{ user.email }}</small>
 
@@ -21,7 +21,6 @@
                     {% else %}
                         <a class="btn btn-sm btn-outline-info mt-3 mr-3 float-right" href="{{ url_for('users.unfollow', username=user.username) }}">Following</a> 
                     {% endif %}
-
                 </div>
             {% endfor %}
 
@@ -30,7 +29,7 @@
             <p class="text-center text-muted">Following:</p>
             {% for user in user.followed %}
                 <div class="ml-1 mb-3">
-                    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
+                    <img alt="user profile picture" class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
                     <a class="btn btn-sm btn-light ml-1" href="{{ url_for('users.user_profile', username=user.username) }}">{{ user.username }}</a>
                     <small class="text-muted disabled userlist-email ml-3">{{ user.email }}</small>
 
@@ -43,7 +42,6 @@
                     {% else %}
                         <a class="btn btn-sm btn-outline-secondary mt-3 mr-3 float-right" href="{{ url_for('users.unfollow', username=user.username) }}">Following</a>
                     {% endif %}
-
                 </div>
             {% endfor %}
         {% endif %}

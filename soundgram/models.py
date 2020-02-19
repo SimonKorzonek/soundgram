@@ -6,13 +6,15 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 # it's needed for login_manager to work - have to know how to grab users by thoir id's
 @login_manager.user_loader
-
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+#  association followers table
 followers = db.Table('followers', db.Column('follower_id', db.Integer, db.ForeignKey('user.id')), db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
 
+class Pet(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -20,32 +22,49 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)  # post sets additional query in the background, that will get all posts user created, it is not declaration of new column
-    post = db.relationship('Post', backref='author', lazy=True)  # backhref adds column to post model by reference to another class    # lazy loads the data as necesary at one go --- author - db feature - we havent declared any author, though, python will understand
-    comment = db.relationship('Comment', backref='author', lazy=True)
-    messages_sent = db.relationship('Message', foreign_keys='Message.sender_id', backref='sender', lazy='dynamic')
-    messages_received = db.relationship('Message', foreign_keys='Message.recipient_id', backref='recipient', lazy='dynamic')
+    bio = db.Column(db.String(120), nullable=True)
+
+    # relationship between users in followers table
+    followed = db.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref('followers', lazy='dynamic'),
+        lazy='dynamic')
+
+    #  relationships beetweend posts comments and likes
+    post = db.relationship(
+        'Post',
+        backref='author',
+        lazy=True)  # backhref adds column to post model by reference to another class    # lazy loads the data as necesary at one go --- author - db feature - we havent declared any author, though, python will understand
+    comment = db.relationship(
+        'Comment',
+        backref='author',
+        lazy=True)
+    liked = db.relationship(
+        'Likes',
+        foreign_keys='Likes.user_id',
+        backref='user',
+        lazy='dynamic')
+
+    #  message relationships
+    messages_sent = db.relationship(
+        'Message',
+        foreign_keys='Message.sender_id',
+        backref='author',
+        lazy='dynamic')
+    messages_received = db.relationship(
+        'Message',
+        foreign_keys='Message.recipient_id',
+        backref='recipient',
+        lazy='dynamic')
     last_message_read_time = db.Column(db.DateTime)
 
+    #  user object behaviors
     def new_messages(self):
         last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
         return Message.query.filter_by(recipient=self).filter(
             Message.timestamp > last_read_time).count()
-
-    # describing relationship between users in followers table
-    followed = db.relationship(
-                        'User', secondary=followers,
-                        primaryjoin=(followers.c.follower_id == id),
-                        secondaryjoin=(followers.c.followed_id == id),
-                        backref=db.backref('followers', lazy='dynamic'),
-                        lazy='dynamic')
-
-    liked = db.relationship('Likes', foreign_keys='Likes.user_id', backref='user', lazy='dynamic')
-
-    messages_sent = db.relationship('Message', foreign_keys='Message.sender_id', backref='author', lazy='dynamic')
-
-    messages_received = db.relationship('Message', foreign_keys='Message.recipient_id', backref='recipient', lazy='dynamic')
-    
-    last_message_read_time = db.Column(db.DateTime)
 
     def like_post(self, post):
         if not self.has_liked_post(post):
@@ -88,16 +107,17 @@ class User(db.Model, UserMixin):
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
     @staticmethod  # if token is valid this will return user fitting token
-    def verify_reset_token(token):
+    def verify_reset_token(token, user_id):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token)[user_id]
-        except:
+        except Exception:
             return None
         return User.query.get(user_id)
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.messages_received}')"
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
