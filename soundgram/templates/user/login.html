@@ -3,7 +3,6 @@
 {% block content %}
 
 <div class="row content-section justify-content-center">
-
     <div id="welcome-heading-container">
         <div class="row justify-content-center">
             <h1 id="welcome-header">SOUNDGRAM</h1><br><br>
@@ -14,68 +13,71 @@
     </div>
 
     <div class="box">
-        <div class="box-dimmed">
+        <div class="col pr-5 pl-5">
             <form method="POST">
                 {{ login_form.hidden_tag() }}
-                <fieldset class="form-group">
-                    <legend class="pb-3 pt-3 text-center welcome-legend">Sing in <i id="sign-in-icon" class="fas fa-heart"></i></legend>
+                <fieldset class="form-group text-center">
+                    <legend class="pt-3 text-center welcome-legend">Sing in <i id="sign-in-icon" class="fas fa-heart"></i></legend>
+                    <i class="testing">testing@testing.com</i><br>
 
                     <!-- email field validation-->
-                    <div class="form-group mb-4">
-                        {% if login_form.email.errors %}
-                            {{ login_form.email(class="form-control form-control is-invalid") }}
-                            <div class="invalid-feedback">
+                    <div class="form-group mb-2">
+                    {% if login_form.email.errors %}
+                        {{ login_form.email(class="form-control form-control is-invalid") }}
+                        <div class="invalid-feedback">
                                 {% for error in login_form.email.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ login_form.email(class="form-control form-control-sm") }}
-                        {% endif %}
+                        </div>
+                    {% else %}
+                        {{ login_form.email(class="form-control form-control-sm") }}
+                    {% endif %}
                     </div>
 
+                    <i class="testing">testing123</i>
+
                     <!-- password field validation-->
-                    <div class="form-group mb-4">
-                        {%if login_form.password.errors%}
-                            {{ login_form.password(class="form-control form-control is-invalid") }}
-                                <div class="ivalid-feedback">
-                                    {% for error in login_form.password.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                        {%else%}
-                            {{ login_form.password(class="form-control form-control-sm") }} <!--passing form itself-->
-                        {%endif%}
+                    <div class="form-group mb-2">
+                    {%if login_form.password.errors%}
+                        {{ login_form.password(class="form-control form-control is-invalid") }}
+                            <div class="ivalid-feedback">
+                                {% for error in login_form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                    {%else%}
+                        {{ login_form.password(class="form-control form-control-sm") }} <!--passing form itself-->
+                    {%endif%}
                     </div>
 
                     <!-- remember me checkbox -->
                     <div id="remember-me" class="form-check mb-1 text-center">
-                        {{login_form.remember(class="form-check-input pl-3")}}
-                        {{login_form.remember.label(class="form-check-label pl-3 small")}}
+                    {{login_form.remember(class="form-check-input pl-3")}}
+                    {{login_form.remember.label(class="form-check-label pl-3 small")}}
                     </div>
 
                     <!-- submit button -->
                     <div class="form-group text-center mb-3">
-                        {{ login_form.login(class="btn btn-sm btn-outline-light mt-3") }}
+                    {{ login_form.login(class="btn btn-sm btn-outline-light mt-3") }}
                     </div>
 
                     <!--need account?-->
                     <div class="text-center mt-3 pb-0">
-                        <small id="need-acc-forgot-pswd">
-                            Need account? <a href="{{ url_for('users.register')}}">Create one!</a><br>
-                            Forgot password? <a href="{{ url_for('users.reset_request')}}">Recover it!</a>
-                        </small>
+                    <small id="need-acc-forgot-pswd">
+                        Need account? <a href="{{ url_for('users.register')}}">Create one!</a><br>
+                        Forgot password? <a href="{{ url_for('users.reset_request')}}">Recover it!</a>
+                    </small>
                     </div>
                 </fieldset>
             </form>
         </div>
+
     </div>
 
-    <div class="text-center mb-1" id="testing-acc-login">
-        <i class="small">testing@testing.com</i><br>
-        <i class="small">testing123</i>
-    </div>
+
+
 </div>
+
 
 {% endblock %}
 

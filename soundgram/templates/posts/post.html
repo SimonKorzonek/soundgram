@@ -122,7 +122,7 @@
 
                                 <!-- comment metadata -->
                                 <div class="col-auto">
-                                    <a class="small" href="{{ url_for('users.user_profile', username=post.author.username) }}">{{ comment.author.username }}</a>
+                                    <a class="small" href="{{ url_for('users.user_profile', username=comment.author.username) }}">{{ comment.author.username }}</a>
                                     <small class="text-muted">{{ comment.date_posted.strftime('%d-%m-%Y') }}</small>
                                 </div>
 

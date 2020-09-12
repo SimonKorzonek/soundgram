@@ -5,10 +5,9 @@
   font-size: 140%;}
 
 #welcome-heading-container{
-  margin-bottom: 5vh;
-  position: fixed;
-  top: 0;
-  padding-top: 10%;}
+  margin: 7vh 0vh 7vh 0vh;
+  position: relative;
+  top: 0;}
 
 #welcome-header{
   color: rgba(255, 255, 255, 0.9);
@@ -28,64 +27,30 @@
 #testing-acc-login, #need-acc-forgot-pswd, #remember-me, #already-registered{
   color: rgba(255, 255, 255, 0.8);}
 
-#testing-acc-login{
-  position: fixed;
-  bottom: 0;}
+.testing{
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 70%;}
 
 section{
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: url(pics/welcome.JPG);
-  background-attachment: fixed;
-  height: 100vh;
   background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;}
+  min-height: 100vh;
+  background-repeat: no-repeat;}
 
 section .box{
   border-radius: 25px;
   position: relative;
   overflow: hidden;
   width: 95%;
-  top: 50px;}
+  background: rgba(10, 10, 10, 0.7);}
 
-section .box-dimmed{
-  border-radius: 25px;
-  position: relative;
-  padding: 0% 10% 2% 10%;
-  box-sizing: border-box;
-  background: rgba(10, 10, 10, 0.5);
-  background-attachment: fixed;}
-
-section .box:before{
-  border-radius: 20px;
-  content: '';
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  left: -20px;
-  bottom: -20px;
-  background: url(pics/welcome.JPG);
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-  filter: blur(3px);}
-
-section .box fieldset{
-  position: relative;
-  margin: 0 0 20 0;
-  padding: 0;}
 
 
 
 @media(min-width: 600px){
   #welcome-header{
-    font-size: 400%;
-  }
+    font-size: 400%;}
 
   #welcome-heading-container{
-    padding-top: 7%;
-  }
+    padding-top: 7%;}
 }

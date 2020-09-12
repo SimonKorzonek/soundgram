@@ -13,9 +13,6 @@ def load_user(user_id):
 #  association followers table
 followers = db.Table('followers', db.Column('follower_id', db.Integer, db.ForeignKey('user.id')), db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
 
-class Pet(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True, nullable=False)

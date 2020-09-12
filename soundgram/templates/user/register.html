@@ -13,89 +13,85 @@
     </div>
 
     <div class="box">
-        <div class="box-dimmed">
+        <!--register-->
+        <div class="col pr-5 pl-5">
+            <form method="POST">
+                {{ register_form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="mb-1 pt-3 text-center welcome-legend">Create account <i id="sign-in-icon" class="fas fa-heart"></i></legend>
 
-            <!--register-->
-            <div class="col">
-                <form method="POST">
-                    {{ register_form.hidden_tag() }}
-                    <fieldset class="form-group">
-                        <legend class="mb-1 pt-3 text-center welcome-legend">Create account <i id="sign-in-icon" class="fas fa-heart"></i></legend>
+                    <!--username validation-->
+                    <div class="form-group mb-3 mt-3">
+                        <!--displaying error feedback-->
+                        {% if register_form.username.errors %}
+                            {{ register_form.username(class="form-control form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in register_form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ register_form.username(class="form-control form-control-sm") }}
+                        {% endif %}
+                    </div>
 
-                        <!--username validation-->
-                        <div class="form-group mb-3 mt-3">
-                            <!--displaying error feedback-->
-                            {% if register_form.username.errors %}
-                                {{ register_form.username(class="form-control form-control is-invalid") }}
+                    <!--email validation-->
+                    <div class="form-group mb-3">
+                        {% if register_form.email.errors %}
+                            {{ register_form.email(class="form-control form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in register_form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ register_form.email(class="form-control form-control-sm") }}
+                        {% endif %}
+                    </div>
+
+                    <!--password validation-->
+                    <div class="form-group mb-3">
+                    {% if register_form.password.errors %}
+                        {{ register_form.password(class="form-control form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in register_form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                    {% else %}
+                        {{ register_form.password(class="form-control form-control-sm") }} 
+                    {% endif %}
+                    </div>
+
+                    <!--confirm pswrd-->
+                    <div class="form-group mb-2">
+                        {% if register_form.confirm_password.errors%}
+                            {{ register_form.confirm_password(class="form-control form-control is-invalid") }}
                                 <div class="invalid-feedback">
-                                    {% for error in register_form.username.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ register_form.username(class="form-control form-control-sm") }}
-                            {% endif %}
-                        </div>
-
-                        <!--email validation-->
-                        <div class="form-group mb-3">
-                            {% if register_form.email.errors %}
-                                {{ register_form.email(class="form-control form-control is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in register_form.email.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ register_form.email(class="form-control form-control-sm") }}
-                            {% endif %}
-                        </div>
-
-                        <!--password validation-->
-                        <div class="form-group mb-3">
-                        {% if register_form.password.errors %}
-                            {{ register_form.password(class="form-control form-control is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in register_form.password.errors %}
+                                    {% for error in register_form.confirm_password.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                         {% else %}
-                            {{ register_form.password(class="form-control form-control-sm") }} 
+                            {{ register_form.confirm_password(class="form-control form-control-sm") }} 
                         {% endif %}
-                        </div>
+                    </div>
 
-                        <!--confirm pswrd-->
-                        <div class="form-group mb-2">
-                            {% if register_form.confirm_password.errors%}
-                                {{ register_form.confirm_password(class="form-control form-control is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        {% for error in register_form.confirm_password.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                            {% else %}
-                                {{ register_form.confirm_password(class="form-control form-control-sm") }} 
-                            {% endif %}
-                        </div>
+                    <!--button-->
+                    <div class="form-group pt-4 pl-2 text-center">
+                        {{ register_form.register(class="btn btn-sm btn-outline-light") }}
+                    </div>
 
-                    
-                        <!--button-->
-                        <div class="form-group pt-4 pl-2 text-center">
-                            {{ register_form.register(class="btn btn-sm btn-outline-light") }}
-                        </div>
+                    <!--need account?-->
+                    <div class="text-center mt-3 pb-0">
+                        <small id="already-registered">
+                            Already registered? <a class="ml-2" href="{{ url_for('users.login')}}">Sign in!</a><br>
+                        </small>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
 
-
-                        <!--need account?-->
-                        <div class="text-center mt-3 pb-0">
-                            <small id="already-registered">
-                                Already registered? <a class="ml-2" href="{{ url_for('users.login')}}">Sign in!</a><br>
-                            </small>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-       </div>
     </div>
 
 
